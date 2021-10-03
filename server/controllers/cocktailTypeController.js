@@ -11,7 +11,6 @@ class CocktailTypeController {
   async  getAll(req,res) {
     res.json('alllllll')
   }
-
 }
 
 module.exports = new CocktailTypeController()
