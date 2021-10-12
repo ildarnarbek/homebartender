@@ -12,23 +12,32 @@ const User = sequelize.define('user', {
 const Sex = sequelize.define('sex', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING , unique: true, allowNull: false},
+}, {
+  createdAt: false,
+  updatedAt: false,
 })
 
 const DrinkGroup = sequelize.define('drink_group', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING, unique: true, allowNull: false},
+},{
+  createdAt: false,
+  updatedAt: false,
 })
 
 const DrinkType = sequelize.define('drink_type', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING, unique: true, allowNull: false},
+},{
+  createdAt: false,
+  updatedAt: false,
 })
 
 const Drink = sequelize.define('drink', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING , unique: true, allowNull: false},
   count: {type: DataTypes.INTEGER, allowNull: false},
-  alco_percent: {type: DataTypes.INTEGER,}
+  alcoPercent: {type: DataTypes.INTEGER,}
 })
 
 const Recipe = sequelize.define('recipe', {
@@ -48,18 +57,25 @@ const Order = sequelize.define('order', {
 const Glass = sequelize.define('glass', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING , unique: true, allowNull: false},
+},{
+  createdAt: false,
+  updatedAt: false,
 })
 
 const CocktailType = sequelize.define('cocktail_type', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  count: {type: DataTypes.INTEGER , allowNull: false},
+  name: {type: DataTypes.STRING , unique: true, allowNull: false},
+},{
+  createdAt: false,
+  updatedAt: false,
 })
 
 const Cocktail = sequelize.define('cocktail', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  count: {type: DataTypes.INTEGER , allowNull: false},
-  alco_percent: {type: DataTypes.INTEGER , allowNull: false},
+  name: {type: DataTypes.STRING , unique: true, allowNull: false},
 })
+
+// котейлю дописать вкус
 
 DrinkGroup.hasMany(Drink)
 Drink.belongsTo(DrinkGroup)
@@ -85,4 +101,5 @@ Cocktail.belongsToMany(User, {through: Order })
 Drink.belongsToMany(Cocktail, {through: Recipe })
 Cocktail.belongsToMany(Drink, {through: Recipe })
 
-module.exports = { User, DrinkGroup, DrinkType , Drink, Sex, OrderStatus};
+
+module.exports = { User, DrinkGroup, DrinkType , Drink, Sex, OrderStatus,Cocktail, CocktailType, Glass, Recipe};
