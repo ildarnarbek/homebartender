@@ -9,7 +9,8 @@ class CocktailTypeController {
   }
 
   async  getAll(req,res) {
-    res.json('alllllll')
+    const cocktailTypes = await CocktailType.findAll()
+    return res.json(cocktailTypes)
   }
 }
 
