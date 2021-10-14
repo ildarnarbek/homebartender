@@ -9,7 +9,8 @@ class SexController {
   }
 
   async  getAll(req,res) {
-    res.json('alllllll')
+    const sex = await Sex.findAll()
+    return res.json(sex)
   }
 }
 
