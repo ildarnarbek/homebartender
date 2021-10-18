@@ -1,9 +1,9 @@
 import './App.css';
-import BarLoader from './components/Bar/BarLoader/BarLoader';
+import Bar from './components/Bar/Bar';
 
 function App() {
   return (
-    <BarLoader />
+    <Bar />
   );
 }
 
