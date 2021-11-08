@@ -37,7 +37,8 @@ const Drink = sequelize.define('drink', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING , unique: true, allowNull: false},
   count: {type: DataTypes.INTEGER, allowNull: false},
-  alcoPercent: {type: DataTypes.INTEGER,}
+  alcoPercent: {type: DataTypes.INTEGER},
+  isDefault: {type: DataTypes.BOOLEAN, defaultValue: false }
 })
 
 const Recipe = sequelize.define('recipe', {
@@ -73,6 +74,7 @@ const CocktailType = sequelize.define('cocktail_type', {
 const Cocktail = sequelize.define('cocktail', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING , unique: true, allowNull: false},
+  alcoPercent: {type: DataTypes.INTEGER}
 })
 
 // котейлю дописать вкус
@@ -98,8 +100,14 @@ Order.belongsTo(OrderStatus)
 User.belongsToMany(Cocktail, {through: Order })
 Cocktail.belongsToMany(User, {through: Order })
 
-Drink.belongsToMany(Cocktail, {through: Recipe })
-Cocktail.belongsToMany(Drink, {through: Recipe })
+// Drink.belongsToMany(Cocktail, {through: Recipe })
+// Cocktail.belongsToMany(Drink, {through: Recipe })
+
+DrinkType.belongsToMany(Cocktail, {through: Recipe })
+Cocktail.belongsToMany(DrinkType, {through: Recipe })
+
+DrinkGroup.belongsToMany(Cocktail, {through: Recipe })
+Cocktail.belongsToMany(DrinkGroup, {through: Recipe })
 
 
 module.exports = { User, DrinkGroup, DrinkType , Drink, Sex, OrderStatus,Cocktail, CocktailType, Glass, Recipe};
