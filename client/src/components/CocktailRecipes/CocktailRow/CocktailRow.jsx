@@ -14,65 +14,40 @@ import AddIcon from '@mui/icons-material/Add';
 
 
 const CocktailRow = ({ setLoading }) => {
-  const [types, setTypes] = useState([]);
-  const [groups, setGroups] = useState([]);
-  const [openGroups, setOpenGroups] = React.useState(false);
-  const [openTypes, setOpenTypes] = React.useState(false);
-  const [selectedType, setSelectedType] = useState(null);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [glasses, setGlasses] = useState([]);
+
+  const [openGlasses, setOpenGlasses] = React.useState(false);
+  const [selectedGlass, setSelectedGlass] = useState(null);
 
   const [name, setName] = useState('');
-  const [alcoPercent, setAlcoPercent] = useState(0);
-  const loadingGroups = openGroups && groups.length === 0;
-  const loadingTypes = openTypes;
+  const loadingGlasses = openGlasses && glasses.length === 0;
 
   useEffect(() => {
     let active = true;
 
-    if (!loadingGroups) {
+    if (!loadingGlasses) {
       return undefined;
     }
 
     (async () => {
-      const res = await axios.get('http://localhost:3001/api/cocktail-type/all');
+      const res = await axios.get('http://localhost:3001/api/glass/all');
       if (active) {
-        setTypes([...res.data]);
+        setGlasses([...res.data]);
       }
     })();
 
     return () => {
       active = false;
     };
-  }, [loadingGroups]);
+  }, [loadingGlasses]);
 
-  useEffect(() => {
-    let activeTypes = true;
-    console.log('useeffect');
-
-    if (!loadingTypes) {
-      return undefined;
-    }
-
-    (async () => {
-      const res = await axios.get('http://localhost:3001/api/cocktail-type/all');
-      if (activeTypes) {
-        setTypes([...res.data]);
-      }
-    })();
-
-    return () => {
-      activeTypes = false;
-    };
-  }, [loadingTypes]);
 
   const sendData = () => {
     console.log();
     axios
       .post('http://localhost:3001/api/drink/', {
         name: name,
-        alcoPercent: alcoPercent,
-        drinkGroupId: selectedGroup.id,
-        drinkTypeId: selectedType.id,
+        drinkGroupId: selectedGlass.id,
       })
       .then(function (response) {
         console.log(response);
@@ -99,26 +74,21 @@ const CocktailRow = ({ setLoading }) => {
           <Autocomplete
             id='asynchronous-demo'
             sx={{ width: 200 }}
-            open={openGroups}
+            open={openGlasses}
             onOpen={() => {
-              setOpenGroups(true);
+              setOpenGlasses(true);
             }}
             onClose={() => {
-              setOpenGroups(false);
+              setOpenGlasses(false);
             }}
             isOptionEqualToValue={(option, value) => option.name === value.name}
             getOptionLabel={(option) => option.name}
-            value={selectedGroup}
+            value={selectedGlass}
             onChange={(e, newValue) => {
-              setSelectedGroup(newValue);
-              setSelectedType(null);
-              console.log(selectedGroup);
-              if (newValue === null) {
-                setSelectedType(null);
-              }
+              setSelectedGlass(newValue);
             }}
-            options={groups}
-            loading={loadingGroups}
+            options={glasses}
+            loading={loadingGlasses}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -127,45 +97,7 @@ const CocktailRow = ({ setLoading }) => {
                   ...params.InputProps,
                   endAdornment: (
                     <React.Fragment>
-                      {loadingGroups ? (
-                        <CircularProgress color='inherit' size={20} />
-                      ) : null}
-                      {params.InputProps.endAdornment}
-                    </React.Fragment>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item sx={{ mr: 2 }}>
-          <Autocomplete
-            id='asynchronous-demo'
-            sx={{ width: 200 }}
-            open={openTypes}
-            onOpen={() => {
-              setOpenTypes(true);
-            }}
-            onClose={() => {
-              setOpenTypes(false);
-            }}
-            isOptionEqualToValue={(option, value) => option.name === value.name}
-            getOptionLabel={(option) => option.name}
-            value={selectedType}
-            onChange={(e, newValue) => {
-              setSelectedType(newValue);
-            }}
-            options={types}
-            loading={loadingTypes}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label='Тип коктейля'
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <React.Fragment>
-                      {loadingGroups ? (
+                      {loadingGlasses ? (
                         <CircularProgress color='inherit' size={20} />
                       ) : null}
                       {params.InputProps.endAdornment}
