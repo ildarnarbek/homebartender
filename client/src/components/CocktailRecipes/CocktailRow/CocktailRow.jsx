@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { glassApi } from "../../../api/glassApi";
+import { cocktailTypeApi } from "../../../api/coctailTypeApi"
 
 import {
   Grid,
@@ -15,12 +17,16 @@ import AddIcon from '@mui/icons-material/Add';
 
 const CocktailRow = ({ setLoading }) => {
   const [glasses, setGlasses] = useState([]);
+  const [cocktailTypes, setCocktailTypes] = useState([]);
 
   const [openGlasses, setOpenGlasses] = React.useState(false);
   const [selectedGlass, setSelectedGlass] = useState(null);
+  const [openCoctailTypes, setOpenCoctailTypes] = React.useState(false);
+  const [selectedCocktailType, setSelectedCocktailType] = useState(null);
 
   const [name, setName] = useState('');
   const loadingGlasses = openGlasses && glasses.length === 0;
+  const loadingCocktailTypes = openCoctailTypes && cocktailTypes.length === 0;
 
   useEffect(() => {
     let active = true;
@@ -30,7 +36,7 @@ const CocktailRow = ({ setLoading }) => {
     }
 
     (async () => {
-      const res = await axios.get('http://localhost:3001/api/glass/all');
+      const res = await glassApi.getAll();
       if (active) {
         setGlasses([...res.data]);
       }
@@ -40,6 +46,25 @@ const CocktailRow = ({ setLoading }) => {
       active = false;
     };
   }, [loadingGlasses]);
+
+  useEffect(() => {
+    let active = true;
+
+    if (!loadingCocktailTypes) {
+      return undefined;
+    }
+
+    (async () => {
+      const res = await cocktailTypeApi.getAll();
+      if (active) {
+        setCocktailTypes([...res.data]);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [loadingCocktailTypes]);
 
 
   const sendData = () => {
@@ -108,14 +133,53 @@ const CocktailRow = ({ setLoading }) => {
             )}
           />
         </Grid>
+        <Grid item sx={{ mr: 2 }}>
+          <Autocomplete
+            id='asynchronous-demo'
+            sx={{ width: 200 }}
+            open={openCoctailTypes}
+            onOpen={() => {
+              setOpenCoctailTypes(true);
+            }}
+            onClose={() => {
+              setOpenCoctailTypes(false);
+            }}
+            isOptionEqualToValue={(option, value) => option.name === value.name}
+            getOptionLabel={(option) => option.name}
+            value={selectedCocktailType}
+            onChange={(e, newValue) => {
+              setSelectedCocktailType(newValue);
+            }}
+            options={cocktailTypes}
+            loading={loadingCocktailTypes}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label='Тип коктейля'
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <React.Fragment>
+                      {loadingCocktailTypes ? (
+                        <CircularProgress color='inherit' size={20} />
+                      ) : null}
+                      {params.InputProps.endAdornment}
+                    </React.Fragment>
+                  ),
+                }}
+              />
+            )}
+          />
+        </Grid>
         <Grid item container sx={{ width: 'auto', alignContent: 'center'}}>
           <Fab
-            size='small'
+            size='medium'
             color='secondary'
-            aria-label='add'
+            // aria-label='add'
+            variant="extended"
             onClick={sendData}
           >
-            <AddIcon />
+            <AddIcon /> Добавить коктейль
           </Fab>
         </Grid>
       </Grid>

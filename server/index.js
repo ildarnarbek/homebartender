@@ -21,6 +21,7 @@ const start = async () => {
   try {
     await sequelize.authenticate()
     await sequelize.sync({ force: true }).then(()=> {
+      try {
       models.DrinkGroup.create({name: "vodka"})
       models.DrinkGroup.create({name: "brandy"})
       models.DrinkGroup.create({name: "whiskey"})
@@ -70,25 +71,25 @@ const start = async () => {
       models.DrinkType.create({name: "coconut liquor"})
       models.DrinkType.create({name: "amareto liquor"})
       models.DrinkType.create({name: "cherry liquor"})
-      models.DrinkType.create({name: "berry liquor"})
-      models.DrinkType.create({name: "orange juice"})
-      models.DrinkType.create({name: "grapefruit juice"})
-      models.DrinkType.create({name: "lime juice"})
-      models.DrinkType.create({name: "limon juice"})
-      models.DrinkType.create({name: "apple juice"})
-      models.DrinkType.create({name: "cherry juice"})
-      models.DrinkType.create({name: "pineapple juice"})
-      models.DrinkType.create({name: "cranberry juice"})
-      models.DrinkType.create({name: "blueberry juice"})
-      models.DrinkType.create({name: "juice"})
-      models.DrinkType.create({name: "juice"})
-      models.DrinkType.create({name: "soda"})
-      models.DrinkType.create({name: "blue curacao syrup"})
-      models.DrinkType.create({name: "mint syrup"})
-      models.DrinkType.create({name: "cherry syrup"})
-      models.DrinkType.create({name: "shugar syrup"})
-      models.DrinkType.create({name: "grenadine syrup"})
-      models.DrinkType.create({name: "limon syrup"})
+      // models.DrinkType.create({name: "berry liquor"})
+      // models.DrinkType.create({name: "orange juice"})
+      // models.DrinkType.create({name: "grapefruit juice"})
+      // models.DrinkType.create({name: "lime juice"})
+      // models.DrinkType.create({name: "limon juice"})
+      // models.DrinkType.create({name: "apple juice"})
+      // models.DrinkType.create({name: "cherry juice"})
+      // models.DrinkType.create({name: "pineapple juice"})
+      // models.DrinkType.create({name: "cranberry juice"})
+      // models.DrinkType.create({name: "blueberry juice"})
+      // models.DrinkType.create({name: "juice"})
+      // models.DrinkType.create({name: "juice"})
+      // models.DrinkType.create({name: "soda"})
+      // models.DrinkType.create({name: "blue curacao syrup"})
+      // models.DrinkType.create({name: "mint syrup"})
+      // models.DrinkType.create({name: "cherry syrup"})
+      // models.DrinkType.create({name: "shugar syrup"})
+      // models.DrinkType.create({name: "grenadine syrup"})
+      // models.DrinkType.create({name: "limon syrup"})
 
   
       models.Sex.create({name: "male"})
@@ -111,23 +112,27 @@ const start = async () => {
       models.Glass.create({name: "hurricane"})
       models.Glass.create({name: "margarita"})
 
-      models.Drink.create({
-          name: "Столичная",
-          count: 500,
-          drinkGroupId: 1,
-          drinkTypeId: 1,
-          alcoPercent: 40
-        })
-      models.Drink.create({
-        name: "Капитан Морган",
-        count: 500,
-        drinkGroupId: 5,
-        drinkTypeId: 12,
-        alcoPercent: 40
-      })
-      
-
+      // models.Drink.create({
+      //     name: "Столичная",
+      //     count: 500,
+      //     drinkGroupId: 1,
+      //     drinkTypeId: 1,
+      //     alcoPercent: 40
+      //   })
+      // models.Drink.create({
+      //   name: "Капитан Морган",
+      //   count: 500,
+      //   drinkGroupId: 5,
+      //   drinkTypeId: 12,
+      //   alcoPercent: 40
+      // })
+    
+      } catch (err) {
+        console.log(err);
+        
+      }
     })
+    // })} 
     // const testCocktail = await models.Cocktail.create({name: "Грейхаунд", cocktailTypeId: 2, glassId: 2})
     // const testDrink = await models.Drink.create({
     //   name: "Столичная",

@@ -13,7 +13,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 
 
-const ComponentRow = ({ setLoading }) => {
+const ComponentRow = ({ setLoading, components, addComponent }) => {
   const [types, setTypes] = useState([]);
   const [groups, setGroups] = useState([]);
   const [openGroups, setOpenGroups] = React.useState(false);
@@ -92,6 +92,7 @@ const ComponentRow = ({ setLoading }) => {
     setLoading(true);
   };
 
+
   return (
     <Paper>
       <Grid sx={{ p: 2, width: 'auto' }} container>
@@ -106,7 +107,7 @@ const ComponentRow = ({ setLoading }) => {
             onChange={(e) => setCount(e.target.value)}
             variant='outlined'
             InputProps={{
-              inputProps: { min: 50 },
+              inputProps: { min: 15 },
               endAdornment: <InputAdornment position='end'>ml</InputAdornment>,
             }}
           />
@@ -201,7 +202,7 @@ const ComponentRow = ({ setLoading }) => {
             size='small'
             color='secondary'
             aria-label='add'
-            // onClick={sendData}
+            onClick={() => addComponent(selectedType?.id, selectedGroup?.id, count)}
           >
             <AddIcon />
           </Fab>
