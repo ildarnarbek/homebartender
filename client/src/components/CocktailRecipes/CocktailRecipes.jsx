@@ -5,6 +5,7 @@ import { Grid } from '@mui/material';
 import Layout from '../../layout/Layout';
 import CocktailRow from './CocktailRow/CocktailRow';
 import ComponentRow from './ComponentRow/ComponentRow';
+import NewComponentRow from './NewComponentRow/NewComponentRow';
 
 
 
@@ -20,15 +21,23 @@ const CocktailRecipes = () => {
 
 
   const addComponent = (drinkTypeId, groupId, count) => {
-    const newComponent = {
-      id: components.length+1,
-      drinkTypeId,
-      groupId,
-      count: count
+    if (drinkTypeId && groupId && count ) {
+      const newComponent = {
+        id: components.length+1,
+        drinkTypeId,
+        groupId,
+        count: count
+      }
+      console.log(newComponent)
+      setComponents(prevState => [...prevState, newComponent])
     }
-    console.log(newComponent)
-    setComponents(prevState => [...prevState, newComponent])
   }
+
+
+  const removeComponent = (id) => {
+      setComponents(prevState => prevState.filter(el => el.id !== id))
+  }
+
   console.group('state');
   console.log('components');
   console.log(components);
@@ -41,12 +50,13 @@ const CocktailRecipes = () => {
           <CocktailRow />
         </Grid>
         <Grid item>
+
           {
             components.map((e) => {
-              return  <ComponentRow key={e} data={e} addComponent={addComponent}/>
+              return  <ComponentRow key={e.id} id={e.id} data={e} addComponent={addComponent} removeComponent={removeComponent}/>
            })
           }
-          <ComponentRow components={components} addComponent={addComponent}/>
+        <NewComponentRow components={components} addComponent={addComponent}/>
         </Grid>
       </Grid>
     </Layout>
